@@ -168,17 +168,14 @@ section[id],
 }
 
 /* 로고 */
-.logo { z-index: 10; flex-shrink: 0; }
+.logo { z-index: 10; flex-shrink: 0; position: relative; top: 3px; }
 .logo img {
     height: 34px; /* 기존 28px에서 약 20% 증가, GNB 높이(48px) 내에 안전하게 맞춤 */
     cursor: pointer;
     transition: transform 0.3s ease, filter 0.35s ease;
 }
 .logo:hover img { transform: scale(1.05); }
-/* 다크 모드 로고: 밝기 올려서 보이게 */
-.top-nav.dark-mode .logo img {
-    filter: brightness(10);
-}
+/* 다크 모드 로고 반전 효과 제거 (항상 본래 색상 유지) */
 
 /* 링크 래퍼 */
 .nav-links {
@@ -243,40 +240,7 @@ section[id],
     to   { opacity: 1; transform: translateY(0); }
 }
 
-        /* [성공적.html 유지] Buttons: 다크 글래스 및 빛 스윕 효과 */
-        .button-group { display: flex; gap: 12px; align-items: center; z-index: 10; }
-        .button {
-            position: relative; overflow: hidden; padding: 12px 24px; font-weight: 600; border-radius: 8px; 
-            cursor: pointer; transition: all 0.3s ease; text-decoration: none; display: inline-flex; align-items: center; justify-content: center;
-        }
-        .button-store {
-            background: rgba(30, 30, 30, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.2); font-size: 14px;
-        }
-        .button-store:hover {
 
-    background:
-        rgba(10,10,10,0.92);
-
-    border-color:
-        rgba(49,173,38,0.5);
-
-    transform:
-        translateY(-3px)
-        scale(1.02);
-
-    box-shadow:
-        0 14px 30px rgba(49,173,38,0.18),
-        0 8px 18px rgba(0,0,0,0.12);
-}
-        .button-store img { width: 20px; height: 20px; margin-right: 10px; object-fit: contain; }
-
-        .button::before {
-            content: ''; position: absolute; top: 0; left: -150%; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transform: skewX(-20deg); transition: 0.6s ease; z-index: 1; pointer-events: none;
-        }
-        .button:hover::before { left: 150%; }
 
         .ripple { position: absolute; border-radius: 50%; transform: scale(0); animation: ripple-anim 0.6s linear; background-color: rgba(255, 255, 255, 0.5); pointer-events: none; z-index: 2; }
         @keyframes ripple-anim { to { transform: scale(4); opacity: 0; } }
@@ -887,7 +851,7 @@ APP EXPERIENCE SECTION
 
     position:relative;
 
-    padding: 64px 0;
+    padding: 64px 0 30vh; /* 하단에 충분한 여백을 두어 다음 섹션이 미리 보이지 않도록 함 */
 
     background:
         #ffffff;
@@ -983,36 +947,37 @@ APP EXPERIENCE SECTION
 }
 
 .feature-phone{
-
-    width:260px;
-
-    height:564px;
-
-    border-radius:36px;
-
-    overflow:hidden;
-
-    background:#111;
-
+    width:276px;
+    height:567px;
+    border-radius:40px;
+    overflow:visible;
+    background:transparent;
     position:relative;
+    border:none;
+    filter: drop-shadow(0 20px 50px rgba(0,0,0,0.12));
+}
 
-    box-shadow:
-        0 40px 80px rgba(0,0,0,0.10),
-        0 10px 30px rgba(0,0,0,0.06);
-
-    border:
-        2px solid #1c1c1c;
+.feature-phone::after{
+    content:'';
+    position:absolute;
+    top:0; left:0;
+    width:100%; height:100%;
+    background:url('files/iphone.png') center/contain no-repeat;
+    pointer-events:none;
+    z-index:2;
 }
 
 .feature-phone video{
-
-    width:100%;
-
-    height:100%;
-
+    position:absolute;
+    top:calc(1.0% + 2px);
+    left:2.5%;
+    width:95.0%;
+    height:98.0%;
     object-fit:cover;
-
+    object-position:top center;
     display:block;
+    border-radius:32px;
+    z-index:1;
 }
 
 .feature-copy{
@@ -1042,7 +1007,7 @@ APP EXPERIENCE SECTION
 
     line-height:1.18;
 
-    letter-spacing:-2px;
+    letter-spacing:-0.5px;
 
     font-weight:800;
 
@@ -1173,10 +1138,8 @@ RESPONSIVE
     }
 
     .feature-phone{
-
-        width:280px;
-
-        height:580px;
+        width:296px;
+        height:608px;
     }
 }
 
@@ -1508,8 +1471,7 @@ width:clamp(180px, 14vw, 270px);
         .conclusion-section { position: relative; height: 100vh; display: flex; align-items: center; justify-content: center; background-color: var(--colors-inverse-canvas); color: var(--colors-inverse-ink); overflow: hidden; text-align: center; }
         .conclusion-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; }
         .conclusion-dim { position: absolute; inset: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 0; }
-        .conclusion-section .button-store { background: rgba(255, 255, 255, 0.1); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.2); }
-        .conclusion-section .button-store:hover { background: rgba(255, 255, 255, 0.2); border-color: var(--colors-primary); }
+
         .ai-grid-bg { position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background-image: radial-gradient(circle at 0px 0px, rgba(49, 173, 38, 0.25) 2px, transparent 4px), linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px); background-size: 64px 64px, 64px 64px, 64px 64px; animation: gridPan 30s linear infinite, gridSubtleGlow 20s ease-in-out infinite alternate; will-change: transform, opacity; z-index: 1; }
         @keyframes gridPan { 0% { transform: translate(0, 0); } 100% { transform: translate(64px, 64px); } }
         @keyframes gridSubtleGlow { 0% { opacity: 0.4; } 50% { opacity: 0.7; } 100% { opacity: 0.4; } }
@@ -2561,6 +2523,26 @@ WHY TECH SECTION
     text-align: center;
     text-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
+.hooking-click-hint {
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 13px;
+    font-family: "Pretendard", sans-serif;
+    font-weight: 500;
+    letter-spacing: 2px;
+    color: rgba(255, 255, 255, 0.6);
+    pointer-events: none;
+    animation: clickHintBounce 2s infinite ease-in-out;
+    white-space: nowrap;
+}
+
+@keyframes clickHintBounce {
+    0%, 100% { transform: translate(-50%, 0); opacity: 0.4; }
+    50% { transform: translate(-50%, -5px); opacity: 0.9; }
+}
+
 .hooking-center-item img {
     width: 100px;
     height: 100px;
@@ -3827,10 +3809,6 @@ COMPARISON SECTION
 
 /* LEFT */
 
-.compare-table-wrap {
-    /* 부모 래퍼는 애니메이션 없음 */
-}
-
 /* 표 영역 */
 .compare-table-wrap .compare-table {
     opacity: 0;
@@ -4264,14 +4242,14 @@ COMPARISON SECTION
 .spectrum-narrow-left {
     left: 0;
     width: 33.333%;
-    background: #ebebeb;
+    background: #c8c8c8;
 }
 
 /* 경쟁사: 우측 좁은 범위 */
 .spectrum-narrow-right {
     left: 66.666%;
     width: 33.333%;
-    background: #ebebeb;
+    background: #c8c8c8;
 }
 
 /* 그래서 얼마야: 전 범위 */
@@ -4778,7 +4756,7 @@ pointer-events:none;
 /* △ */
 
 .symbol-triangle{
-    color:#ddd;
+    color:#b8b8b8;
     font-weight:700;
     font-size:21px;
 }
@@ -4786,7 +4764,7 @@ pointer-events:none;
 /* X */
 
 .symbol-x{
-    color:#eee;
+    color:#c4c4c4;
     font-weight:700;
     font-size:21px;
 }
@@ -5767,16 +5745,7 @@ TECH PIPELINE UI
 <span>이제 끝내세요.</span>
 </h1>
                     <p class="hero-sub-text">자주 이용하는 마트와 플랫폼을 등록하면<br>원하는 식재료의 가장 저렴한 판매 플랫폼을 알려드립니다.</p>
-                    <!-- <div class="button-group" style="margin-top: 48px;">
-                        <a href="#" class="button button-store button-ripple" style="padding: 14px 28px; font-size: 16px;">
-                            <img src="files/appstore.png" alt="App Store 로고">
-                            App Store
-                        </a>
-                        <a href="#" class="button button-store button-ripple" style="padding: 14px 28px; font-size: 16px;">
-                            <img src="files/googleplay.png" alt="Google Play 로고">
-                            Google Play
-                        </a>
-                    </div> -->
+
                 </div>
                 
             </div>
@@ -5800,6 +5769,7 @@ TECH PIPELINE UI
 
         <!-- 중앙 사과 이미지 (클릭 전) -->
         <div class="hooking-center-item">
+            <span class="hooking-click-hint">Click</span>
             <img src="files/apple.png" alt="사과">
             <h3 class="hooking-pre-text">사과 한 봉지.<br>어디서 사는게 제일 저렴할까요?</h3>
         </div>
@@ -6116,7 +6086,7 @@ TECH PIPELINE UI
                     <div class="process-number">01</div>
                     <div class="process-text">
                         <h3>플랫폼 등록</h3>
-                        <p>자주 사용하는 마트와 배송 앱을 등록하세요</p>
+                        <p>자주 사용하는 마트와 쇼핑 앱을 등록하세요</p>
                         <span class="stat-badge">자주 사용하는 플랫폼 등록</span>
                     </div>
                     <div class="process-graphic"><img src="files/step1.png" alt="플랫폼 등록"></div>
@@ -6135,8 +6105,8 @@ TECH PIPELINE UI
                 <div class="process-row reveal-step" id="step3">
                     <div class="process-number">03</div>
                     <div class="process-text">
-                        <h3>장바구니 최저가 확인</h3>
-                        <p>장바구니에서 합리적인 품질과 가격을 확인해요</p>
+                        <h3>장바구니 확인</h3>
+                        <p>구매 플랫폼과 절약한 금액을 확인하세요</p>
                         <span class="stat-badge">합리적인 식자재 확인</span>
                     </div>
                     <div class="process-graphic"><img src="files/step3.png" alt="장바구니 확인"></div>
@@ -6146,7 +6116,7 @@ TECH PIPELINE UI
                     <div class="process-number">04</div>
                     <div class="process-text">
                         <h3>최저가 결제</h3>
-                        <p>가장 저렴한 플랫폼으로 이동해서 빠르게 결제해요</p>
+                        <p>저렴한 플랫폼으로 이동해서 빠르게 결제하세요</p>
                         <span class="stat-badge">가장 저렴한 판매처에서 알뜰 소비</span>
                     </div>
                     <div class="process-graphic"><img src="files/step4.png" alt="최저가 결제"></div>
@@ -6197,7 +6167,7 @@ TECH PIPELINE UI
             </div>
             <div class="feature-copy">
                 <span class="feature-mini-label">01. ONBOARDING</span>
-                <h3>스마트한 장보기의 시작</h3>
+                <h3>스마트한<br> 장보기의 시작</h3>
                 <p>자주 사용하는 온오프라인 플랫폼을 설정하고<br>맞춤형 장보기를 시작하세요</p>
             </div>
         </div>
@@ -6370,7 +6340,7 @@ TECH PIPELINE UI
         <div class="tech-step">STEP 04</div>
         <div class="tech-icon">⚡</div>
 
-        <h3>실시간 추천 제공</h3>
+        <h3>플랫폼 추천 제공</h3>
 
         <p>
             사용자는 최적의 판매 플랫폼을<br>
@@ -6836,12 +6806,12 @@ TECH PIPELINE UI
                     </div>
 
                     <h3>
-                        실시간 지역 장보기 데이터
+                        지역으로의 확장
                     </h3>
 
                     <p>
-                        지역 기반 가격 흐름과 전통 시장과 같은<br>
-                         지역 특징적 가격 정보까지 연결합니다
+                        지역 전통시장이나 소규모 마트까지,<br>
+                        세밀한 가격 정보를 연결합니다
                     </p>
                         <div class="future-visual">
         <img src="files/future-icon-3.png" alt="">
@@ -6930,7 +6900,7 @@ TECH PIPELINE UI
 
     <footer class="footer">
         <div class="container">
-            <img src="files/logo.png" alt="로고" style="height: 30px; filter: brightness(0) invert(1); margin-bottom: 32px;">
+            <img src="files/logo.png" alt="로고" style="height: 30px; margin-bottom: 32px;">
             <p>© 2026 So How Much. All rights reserved.</p>
         </div>
     </footer>
@@ -7880,5 +7850,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+<script>
+// Prevent multiple videos from freezing by playing only visible ones
+document.addEventListener('DOMContentLoaded', () => {
+    const allVideos = document.querySelectorAll('video');
+    const globalVideoObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Play when in view
+                entry.target.play().catch(e => console.log('Play prevented', e));
+            } else {
+                // Pause when out of view to save resources
+                entry.target.pause();
+            }
+        });
+    }, { threshold: 0.1 });
+
+    allVideos.forEach(v => globalVideoObserver.observe(v));
+});
+</script>
 </body>
 </html>
